@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "./ui/button";
-import { fetchStocksData } from "@/actions/stocks-actions";
+import { getPrediction } from "@/actions/get-prediction";
 
 export default function StockTickerPrice() {
   const [symbol, setSymbol] = useState("");
@@ -18,7 +18,7 @@ export default function StockTickerPrice() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    fetchStocksData(symbols)
+    getPrediction(symbols)
   }
 
   return (
