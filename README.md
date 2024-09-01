@@ -1,3 +1,12 @@
+
+### Video 1
+1. Home page link to /advisor
+2. Create H1 and DIv with financial advice
+3. Create StockPickerForm -> render @ /advisor 
+4. Button UI component
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
