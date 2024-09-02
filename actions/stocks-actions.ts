@@ -3,21 +3,24 @@ import { restClient } from "@polygon.io/client-js";
 import {
   yesterdaysDateString,
   getTwoYearsBackFromYesterday,
+  getMonthsBackFromYesterday,
 } from "@/utils/dateHelper";
 
 const rest = restClient(process.env.POLY_API_KEY);
 
 const yesterday = yesterdaysDateString();
 const twoYearsBack = getTwoYearsBackFromYesterday();
+const monthsBack = getMonthsBackFromYesterday(1);
 
 export async function fetchStocksData(symbols: string[]) {
+    // Fetch each symbol data
   const fetchStock = async (symbol: string) => {
     try {
       const data = await rest.stocks.aggregates(
         symbol,
         1,
         "day",
-        twoYearsBack,
+        monthsBack,
         yesterday,
       );
       console.log("DATA::: ", data);
@@ -36,12 +39,15 @@ export async function fetchStocksData(symbols: string[]) {
       };
     }
   };
+
   try {
+
     // Call the API concurrently up to 5 calls per min
     const results = await Promise.allSettled(symbols.map(fetchStock));
 
     console.log("RESULTS::: ", results);
 
+    // map over the promises
     return results.map((result) => {
       if (result.status === "fulfilled") {
         return result.value;
