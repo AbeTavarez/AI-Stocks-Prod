@@ -6,3 +6,11 @@ body {
   background-color: #1e1e1e;
   color: #fff;
 }
+
+.link {
+  @apply  hover:text-green-400 text-2xl md:p-1 md:text-base font-bold mx-2
+}
+
+.btn {
+  @apply p-2 rounded text-center
+}
