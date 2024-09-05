@@ -1,14 +1,30 @@
-import { PropsWithChildren } from "react";
 import Link from "next/link";
-export default function Navbar({ children }: PropsWithChildren) {
+
+export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center w-96 rounded-full">
-      <Link href="/home" className="hover:border hover:border-green-400 p-1">
-        Home
-      </Link>
-      <Link className="flex items-center justify-around p-5" href="/agent">
-        Agent
-      </Link>
+    <nav>
+      <ul className="flex justify-between items-center rounded-full">
+        <li>
+          <Link href="/" className="link">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link className="link" href="/agent">
+            Advisor
+          </Link>
+        </li>
+        <li>
+          <Link href="/signup" className="link">
+            Sign up
+          </Link>
+        </li>
+        <li>
+          <Link href="/login" className="link">
+            Login
+          </Link>
+        </li>
+      </ul>
     </nav>
   );
 }
