@@ -16,8 +16,8 @@ export default function StockPickerForm() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    getPrediction(symbols)
-  }
+    getPrediction(symbols);
+  };
 
   return (
     <div className="bg-green-600 w-full rounded-lg">
@@ -33,7 +33,10 @@ export default function StockPickerForm() {
         )}
       </div>
 
-      <form className="flex flex-col items-center p-5 mb-10" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col items-center p-5 mb-10"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           value={symbol}
@@ -51,7 +54,10 @@ export default function StockPickerForm() {
           Add Stock Symbol
         </Button>
 
-        <Button className="bg-black my-2 font-medium disabled:bg-transparent" disabled={symbols.length < 1}>
+        <Button
+          className="bg-black my-2 font-medium disabled:bg-transparent"
+          disabled={symbols.length < 1}
+        >
           Get Prediction
         </Button>
       </form>
