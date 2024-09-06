@@ -43,7 +43,7 @@ export default function StockPickerForm() {
           onChange={(e) => setSymbol(e.target.value)}
           placeholder="Enter stock symbol (e.g., AAPL)"
           className="text-black w-full p-1 rounded"
-          required
+          required={symbols.length < 1}
         />
 
         <Button
