@@ -10,7 +10,7 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <Link className="link" href="/agent">
+          <Link className="link" href="/advisor">
             Advisor
           </Link>
         </li>
