@@ -4,15 +4,13 @@ import { FormEvent, useState } from "react";
 import { Button } from "./ui/button";
 import { getPrediction } from "@/actions/get-prediction";
 
-export default function StockTickerPrice() {
+export default function StockPickerForm() {
   const [symbol, setSymbol] = useState("");
   const [symbols, setSymbols] = useState<string[]>([]);
 
   const onAddStockSymbol = (e: FormEvent) => {
     e.preventDefault();
-
     setSymbols((prevState) => [...prevState, symbol.toUpperCase()]);
-
     setSymbol("");
   };
 
@@ -22,8 +20,8 @@ export default function StockTickerPrice() {
   }
 
   return (
-    <div className="bg-slate-700">
-      <div>
+    <div className="bg-green-600 w-full rounded-lg">
+      <div className="h-5">
         {symbols.length > 0 && (
           <div className="flex justify-center pt-2">
             {symbols.map((s) => (
@@ -42,17 +40,18 @@ export default function StockTickerPrice() {
           onChange={(e) => setSymbol(e.target.value)}
           placeholder="Enter stock symbol (e.g., AAPL)"
           className="text-black w-full p-1 rounded"
+          required
         />
 
         <Button
-          className="bg-green-700 my-5"
+          className="bg-green-400 my-2 font-medium disabled:bg-transparent"
           onClick={onAddStockSymbol}
           disabled={symbol.length < 1}
         >
           Add Stock Symbol
         </Button>
 
-        <Button className="bg-black" disabled={symbols.length < 1}>
+        <Button className="bg-black my-2 font-medium disabled:bg-transparent" disabled={symbols.length < 1}>
           Get Prediction
         </Button>
       </form>
