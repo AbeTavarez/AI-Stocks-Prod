@@ -4,7 +4,7 @@ import {
   yesterdaysDateString,
   getTwoYearsBackFromYesterday,
   getMonthsBackFromYesterday,
-} from "@/utils/dateHelper";
+} from "@/lib/dateHelper";
 
 const rest = restClient(process.env.POLY_API_KEY);
 
@@ -23,29 +23,28 @@ export async function fetchStocksData(symbols: string[]) {
         monthsBack,
         yesterday,
       );
-      console.log("DATA::: ", data);
+      // console.log("DATA::: ", data);
 
       // Reject if no data was found
       if (data.resultsCount === 0) {
         throw new Error(`Data not available for ticker symbol ${data.ticker}`);
       }
+      
       // success
-      return { symbol: data };
+      return data;
+
     } catch (e) {
       console.error(`Error fetching data for ${symbol}:`, e);
-      return {
-        symbol,
-        error: e instanceof Error ? e.message : "An unknown error occurred",
-      };
+      return e;
     }
   };
 
   try {
 
-    // Call the API concurrently up to 5 calls per min
+    // Promises array; Call the API concurrently up to 5 calls per min
     const results = await Promise.allSettled(symbols.map(fetchStock));
 
-    console.log("RESULTS::: ", results);
+    // console.log("RESULTS::: ", results);
 
     // map over the promises
     return results.map((result) => {
