@@ -1,17 +1,19 @@
 "use server";
 import OpenAI from "openai";
 import { fetchStocksData } from "./stocks-actions";
-
+import { IAggs } from "@polygon.io/client-js";
 // OPEN AI Client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function getPrediction(symbols: string[]) {
   try {
     const stocksResults = await fetchStocksData(symbols);
-    console.log("====== HERE =========", stocksResults);
+    // console.log("====== HERE =========", stocksResults);
 
     // TODO: check for stock errors
-    const stocksHistoricalData = stocksResults.filter((r) => !r.error);
+    const stocksHistoricalData = stocksResults.filter(
+      (r) => !(r instanceof Error),
+    );
 
     console.log(stocksHistoricalData);
 
@@ -46,28 +48,29 @@ export async function getPrediction(symbols: string[]) {
     ];
 
     //
-    stocksHistoricalData.forEach((item) => {
-        console.log(item?.symbol.results);
-        
+    stocksHistoricalData.forEach((symbol) => {
+      console.log(symbol);
+
       const dataObj = {
-        symbol: item.symbol?.ticker,
-        data: item?.symbol.results.map(obj => JSON.stringify(obj)).join(""),
+        symbol: symbol?.ticker,
+        data: symbol?.results.map((obj) => JSON.stringify(obj)).join(""),
       };
       prompt.push(JSON.stringify(dataObj));
     });
 
-    console.log(prompt);
+    // console.log(prompt);
 
+    // Completion API Call
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are a stock market expert." },
-        { role: "user", content: prompt.join('') },
+        { role: "user", content: prompt.join("") },
       ],
     });
 
     const prediction = completion.choices[0].message.content;
-    console.log(prediction);
+    // console.log(prediction);
   } catch (e) {
     console.error(e);
   }
