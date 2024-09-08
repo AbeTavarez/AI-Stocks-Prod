@@ -1,25 +1,24 @@
 "use server";
 import OpenAI from "openai";
 import { fetchStocksData } from "./stocks-actions";
-import { IAggs } from "@polygon.io/client-js";
+
 // OPEN AI Client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function getPrediction(symbols: string[]) {
   try {
     const stocksResults = await fetchStocksData(symbols);
-    // console.log("====== HERE =========", stocksResults);
+    console.log("====== HERE =========", stocksResults);
 
-    // TODO: check for stock errors
-    const stocksHistoricalData = stocksResults.filter(
-      (r) => !(r instanceof Error),
-    );
-
-    console.log(stocksHistoricalData);
-
-    if (stocksHistoricalData.length < 0) {
+    if (stocksResults.length <= 0) {
       throw new Error("No historical data found.");
     }
+
+    //? ======= switch to forEach?
+    const stocksHistoricalData = stocksResults.filter((item) => {
+      if (item?.error) throw new Error(`${item?.error}, please try again.`);
+      return item?.status === "OK";
+    });
 
     // OPEN AI
     const prompt = [
@@ -49,7 +48,7 @@ export async function getPrediction(symbols: string[]) {
 
     //
     stocksHistoricalData.forEach((symbol) => {
-      console.log(symbol);
+      // console.log(symbol);
 
       const dataObj = {
         symbol: symbol?.ticker,
@@ -70,8 +69,9 @@ export async function getPrediction(symbols: string[]) {
     });
 
     const prediction = completion.choices[0].message.content;
-    // console.log(prediction);
+    console.log(prediction);
   } catch (e) {
-    console.error(e);
+    console.error("RETURN ERROR::::", e);
+    return e?.message;
   }
 }
