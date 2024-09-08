@@ -1,6 +1,7 @@
 "use server";
 import OpenAI from "openai";
 import { fetchStocksData } from "./stocks-actions";
+import { redirect } from "next/navigation";
 
 // OPEN AI Client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -22,7 +23,7 @@ export async function getPrediction(symbols: string[]) {
 
     // OPEN AI
     const prompt = [
-      "Provide a brief stock price prediction for each of the following stocks based on the provided historical data of the last two years.",
+      "Provide a brief stock price prediction for each of the following stocks based on the provided historical data. Format the response in a HTML div with other semantic elements, don't add any other extra markup.",
       `
         The data is organized as follow:
         {
@@ -70,8 +71,12 @@ export async function getPrediction(symbols: string[]) {
 
     const prediction = completion.choices[0].message.content;
     console.log(prediction);
+    return prediction;
   } catch (e) {
     console.error("RETURN ERROR::::", e);
     return e?.message;
   }
+  // } finally {
+  //   redirect(`/prediction/${new Date().getMilliseconds()}${symbols.join("-")}`);
+  // }
 }
