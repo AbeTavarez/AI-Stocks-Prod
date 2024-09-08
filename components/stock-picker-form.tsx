@@ -7,6 +7,8 @@ import { getPrediction } from "@/actions/get-prediction";
 export default function StockPickerForm() {
   const [symbol, setSymbol] = useState("");
   const [symbols, setSymbols] = useState<string[]>([]);
+  const [error, setError] = useState("");
+  const [prediction, setPrediction] = useState("");
 
   const onAddStockSymbol = (e: FormEvent) => {
     e.preventDefault();
@@ -14,9 +16,16 @@ export default function StockPickerForm() {
     setSymbol("");
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    getPrediction(symbols);
+    const res = await getPrediction(symbols);
+
+    if (res.message) {
+      setError(res.message);
+      return;
+    }
+
+    setPrediction(res);
   };
 
   return (
@@ -61,6 +70,17 @@ export default function StockPickerForm() {
           Get Prediction
         </Button>
       </form>
+
+      <>{error && <div className="text-sm text-red-600">{error}</div>}</>
+
+      <>
+        {prediction && (
+          <div
+            className="prediction"
+            dangerouslySetInnerHTML={{ __html: prediction }}
+          />
+        )}
+      </>
     </div>
   );
 }
