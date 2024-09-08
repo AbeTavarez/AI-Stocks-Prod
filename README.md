@@ -1,9 +1,49 @@
+### video 0
+1. Landing page
+   hero, navbar, header, globals, footer (use markup)
 
 ### Video 1
-1. Home page link to /advisor
-2. Create H1 and DIv with financial advice
+2. Create H1 and DIv with financial disclaimer
 3. Create StockPickerForm -> render @ /advisor 
 4. Button UI component
+5. Signup to Stock API give tour
+6. install client npm install --save @polygon.io/client-js
+7. env api key
+8. create fetchStocksData action func
+    -
+
+### Video 2
+1. Signup to OpenAI (show pricing)
+2. get api key
+3. install client
+4. create getPrediction server action
+    -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
