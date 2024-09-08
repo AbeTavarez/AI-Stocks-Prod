@@ -6,6 +6,8 @@ import {
   getMonthsBackFromYesterday,
 } from "@/lib/dateHelper";
 
+import { IAggs } from "@polygon.io/client-js";
+
 const rest = restClient(process.env.POLY_API_KEY);
 
 const yesterday = yesterdaysDateString();
@@ -13,7 +15,7 @@ const twoYearsBack = getTwoYearsBackFromYesterday();
 const monthsBack = getMonthsBackFromYesterday(1);
 
 export async function fetchStocksData(symbols: string[]) {
-    // Fetch each symbol data
+  // Fetch each symbol data
   const fetchStock = async (symbol: string) => {
     try {
       const data = await rest.stocks.aggregates(
@@ -26,21 +28,22 @@ export async function fetchStocksData(symbols: string[]) {
       // console.log("DATA::: ", data);
 
       // Reject if no data was found
-      if (data.resultsCount === 0) {
-        throw new Error(`Data not available for ticker symbol ${data.ticker}`);
+      if (data.status !== "OK" || data.resultsCount === 0) {
+        return Promise.reject(
+          `Data not available for ticker symbol ${data.ticker}`,
+        );
+        // throw new Error(`Data not available for ticker symbol ${data.ticker}`);
       }
-      
+
       // success
       return data;
-
     } catch (e) {
       console.error(`Error fetching data for ${symbol}:`, e);
-      return e;
+      // return e;
     }
   };
 
   try {
-
     // Promises array; Call the API concurrently up to 5 calls per min
     const results = await Promise.allSettled(symbols.map(fetchStock));
 
@@ -48,21 +51,21 @@ export async function fetchStocksData(symbols: string[]) {
 
     // map over the promises
     return results.map((result) => {
+      console.log(result);
+
       if (result.status === "fulfilled") {
-        return result.value;
+        return result.value as IAggs;
       } else {
         console.error("Promise rejected:", result.reason);
-        return {
-          symbol: "Unknown", // We don't know which symbol caused the error here
-          error:
-            result.reason instanceof Error
-              ? result.reason.message
-              : "An unknown error occurred",
+
+        const error: { error: string } = {
+          error: result.reason,
         };
+        return error;
       }
     });
   } catch (e) {
-    console.error('Unexpected error in fetchStocksData:', e);
-    throw new Error('Failed to fetch stocks data');
+    console.error("Unexpected error in fetchStocksData:", e);
+    throw new Error("Failed to fetch stocks data");
   }
 }
