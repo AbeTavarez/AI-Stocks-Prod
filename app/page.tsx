@@ -37,7 +37,7 @@ export default function Home() {
       </div>
 
       <section id="why-choose-us" className="my-32">
-        <h2 className="text-5xl font-semibold mb-5 text-center border-b border-b-green-300">
+        <h2 className="text-5xl font-semibold mb-5 text-center border-b-4 border-b-green-300">
           Why Choose Our AI Chatbot?
         </h2>
 
@@ -64,7 +64,7 @@ export default function Home() {
       </section>
 
       <section id="how-it-works" className="my-32">
-        <h2 className="text-5xl font-semibold mb-5 text-center border-b border-b-green-300">
+        <h2 className="text-5xl font-semibold mb-5 text-center  border-b-4 border-b-green-300 ">
           How It Works
         </h2>
 
@@ -91,7 +91,7 @@ export default function Home() {
       </section>
 
       <section id="who-can-benefit" className="my-32">
-        <h2 className="text-5xl font-semibold mb-5 text-center border-b border-b-green-300">
+        <h2 className="text-5xl font-semibold mb-5 text-center border-b-4 border-b-green-300 border-">
           Who Can Benefit?
         </h2>
 
