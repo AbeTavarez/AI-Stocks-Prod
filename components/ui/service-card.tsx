@@ -12,8 +12,11 @@ export default function ServiceCard({
   pathName,
 }: ServiceCardProps) {
   return (
-    <Link href={pathName} className="hover:scale-105 transition ease-in-out">
-      <div className="flex flex-col justify-around text-center w-52 h-72 border-4 bg-green-600 rounded-lg p-5 hover:border-green-200">
+    <Link
+      href={pathName}
+      className="hover:scale-105 transition ease-in-out"
+    >
+      <div className="flex flex-col justify-around text-center h-72 border-4 bg-slate-800 rounded-lg p-5 border-green-200">
         <div className="text-xl font-bold">{service}</div>
         <p className="text-lg">{description}</p>
       </div>
