@@ -14,3 +14,13 @@ body {
 .btn {
   @apply p-2 rounded text-center
 }
+
+.prediction h2 {
+  @apply p-5 text-4xl text-gray-200 font-bold
+}
+.prediction h3 {
+  @apply p-5 text-4xl text-gray-200 font-bold
+}
+.prediction p {
+  @apply p-5 text-4xl text-gray-200
+}
