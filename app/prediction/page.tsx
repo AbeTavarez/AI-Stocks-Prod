@@ -57,7 +57,7 @@ export default function PredictionPage() {
           required={symbols.length < 1}
         />
 
-        <small>
+        <small className="text-sm font-medium mb-5">
           Enter one stock symbol at a time (e.g. AAPL), the max you can add is
           five.
         </small>
