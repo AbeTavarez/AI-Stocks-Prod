@@ -53,7 +53,7 @@ export default function PredictionPage() {
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
           placeholder="Enter stock symbol (e.g., AAPL)"
-          className="text-black w-full p-1 rounded mb-2"
+          className="text-black p-1 rounded mb-2 w-[50%]"
           required={symbols.length < 1}
         />
 
@@ -63,7 +63,7 @@ export default function PredictionPage() {
         </small>
 
         <Button
-          className="bg-green-400 my-2 font-medium disabled:bg-transparent"
+          className="bg-blue-600 my-2 font-medium disabled:bg-transparent"
           onClick={onAddStockSymbol}
           disabled={symbol.length < 1}
         >
@@ -71,7 +71,7 @@ export default function PredictionPage() {
         </Button>
 
         <Button
-          className="bg-black my-2 font-medium disabled:bg-transparent"
+          className="bg-green-500 my-2 font-medium disabled:bg-transparent"
           disabled={symbols.length < 1}
         >
           Get Prediction
