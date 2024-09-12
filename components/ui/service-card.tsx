@@ -1,24 +1,27 @@
+"use client";
 import Link from "next/link";
 
 type ServiceCardProps = {
-  service: string;
+  name: string;
   description: string;
-  pathName: string;
+  href: string;
+  icon: string;
 };
 
 export default function ServiceCard({
-  service,
+  name,
   description,
-  pathName,
+  href,
+  icon,
 }: ServiceCardProps) {
+  const Icon = icon;
+  console.log(Icon);
   return (
-    <Link
-      href={pathName}
-      className="hover:scale-105 transition ease-in-out"
-    >
-      <div className="flex flex-col justify-around text-center h-72 border-4 bg-slate-800 rounded-lg p-5 border-green-200">
-        <div className="text-xl font-bold">{service}</div>
-        <p className="text-lg">{description}</p>
+    <Link href={href} className="hover:scale-105 transition ease-in-out max-w-72">
+      <div className="flex flex-col justify-around items-center h-80 max-w-72 border-2 bg-slate-800 rounded-lg p-5 border-green-200 shadow-md shadow-green-200">
+        <div className="text-xl font-bold max-w-48 text-center">{name}</div>
+        <Icon className="size-14" />
+        <p className="text-lg max-w-48 font-medium">{description}</p>
       </div>
     </Link>
   );
