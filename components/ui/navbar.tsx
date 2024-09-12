@@ -1,29 +1,27 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const links = [
+  { name: "Home", href: "/" },
+  { name: "Advisor", href: "/advisor" },
+  { name: "SignUp", href: "/signup" },
+  { name: "Login", href: "/login" },
+];
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
     <nav>
-      <ul className="flex justify-between items-center rounded-full">
-        <li>
-          <Link href="/" className="link">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link className="link" href="/advisor">
-            Advisor
-          </Link>
-        </li>
-        <li>
-          <Link href="/signup" className="link">
-            Sign up
-          </Link>
-        </li>
-        <li>
-          <Link href="/login" className="link">
-            Login
-          </Link>
-        </li>
+      <ul className="flex justify-between items-center">
+        {links.map((link) => (
+          <li key={link.name}>
+            <Link href={link.href} className="link">
+              {link.name}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
