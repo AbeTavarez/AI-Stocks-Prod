@@ -1,4 +1,9 @@
-export const services = [
+export const services: Array<{
+  name: string;
+  description: string;
+  href: string;
+  icon: "sparkles" | "smile" | "personal" | "insight" | "simulation" | "risk";
+}> = [
   {
     name: "Stock Prediction",
     href: "/prediction",

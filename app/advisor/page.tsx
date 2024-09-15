@@ -1,22 +1,6 @@
 "use client";
 import ServiceCard from "@/components/ui/service-card";
 import { services } from "@/lib/services-data";
-// import { SparklesIcon } from "@heroicons/react/24/solid";
-// const icons = [
-//   SparklesIcon,
-//   SparklesIcon,
-//   SparklesIcon,
-//   SparklesIcon,
-//   SparklesIcon,
-//   SparklesIcon,
-// ];
-
-// const servicesWithIcons = services.map((service, i) => {
-//   return {
-//     ...service,
-//     icon: icons[i],
-//   };
-// });
 
 export default function Advisor() {
   return (

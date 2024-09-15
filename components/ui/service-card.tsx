@@ -18,11 +18,13 @@ const iconsMap = {
   risk: FireIcon 
 };
 
+type IconKey = keyof typeof iconsMap; // Create a type of the keys in iconsMap
+
 type ServiceCardProps = {
   name: string;
   description: string;
   href: string;
-  icon: string;
+  icon: IconKey;
 };
 
 export default function ServiceCard({
