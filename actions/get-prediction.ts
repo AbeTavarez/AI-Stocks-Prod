@@ -1,7 +1,6 @@
 "use server";
 import OpenAI from "openai";
 import { fetchStocksData } from "./stocks-actions";
-import { redirect } from "next/navigation";
 
 // OPEN AI Client
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -23,14 +22,16 @@ export async function getPrediction(symbols: string[]) {
 
     // OPEN AI
     const prompt = [
-      "Provide a brief stock price prediction for each of the following stocks based on the provided historical data. Format the response in a HTML div with other semantic elements, don't add any other extra markup.",
+      `Your task is to provide a brief stock price prediction for each of the following stocks based on the provided historical data delimited by triple quotes. Also search for the latest stock trends for each stock and predict the price for the next opening day. 
+
+      Format the response inside a HTML div with other semantic elements, and don't add any other extra markup.`,
       `
         The data is organized as follow:
         {
-            symbol: stock symbol ticker,
-            data: [historical data]
+            symbol: <stock symbol ticker>,
+            data: <historical data>
         }
-        The [historical data] is organized as follow:
+        The <historical data> is organized as follow:
         {
             c: The close price for the symbol in the given time period,
             h: The highest price for the symbol in the given time period,
@@ -43,7 +44,8 @@ export async function getPrediction(symbols: string[]) {
             vw: The volume weighted average price
         }
 
-        Here is the data:
+        Here is the actual data:
+        """
         `,
     ];
 
@@ -76,7 +78,4 @@ export async function getPrediction(symbols: string[]) {
     console.error("RETURN ERROR::::", e);
     return e?.message;
   }
-  // } finally {
-  //   redirect(`/prediction/${new Date().getMilliseconds()}${symbols.join("-")}`);
-  // }
 }
