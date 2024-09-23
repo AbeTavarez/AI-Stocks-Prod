@@ -39,17 +39,22 @@ export default function PredictionPage() {
     try {
       e.preventDefault();
       setLoading(true);
-      const res = await getPrediction(symbols);
-      console.log("RES::: ", res);
+      const { prediction, message } = await getPrediction(symbols);
+      console.log("RES::: ", prediction, message);
 
-      if (res.message) {
-        setError(res.message);
-        return;
+      if (message) {
+        setError(message);
+        setSymbols([]);
+        setLoading(false);
+        // return;
       }
 
-      setPrediction(res);
-      setSymbols([]);
-      setLoading(false);
+      if (prediction) {
+        setPrediction(prediction);
+        setSymbols([]);
+        setLoading(false);
+        setError('')
+      }
     } catch (e) {
       console.log(e);
     }
@@ -116,7 +121,7 @@ export default function PredictionPage() {
 
       <>
         {error && (
-          <div className="text-sm text-red-600 text-center">{error}</div>
+          <div className=" text-red-600 text-center">{error}</div>
         )}
       </>
 
