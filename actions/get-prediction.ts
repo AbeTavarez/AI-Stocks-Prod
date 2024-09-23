@@ -73,9 +73,9 @@ export async function getPrediction(symbols: string[]) {
 
     const prediction = completion.choices[0].message.content;
     console.log(prediction);
-    return prediction;
+    return {prediction};
   } catch (e: any) {
     console.error("RETURN ERROR::::", e);
-    return e.message;
+    return {message: e.message};
   }
 }
