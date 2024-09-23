@@ -8,16 +8,15 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 export async function getPrediction(symbols: string[]) {
   try {
     const stocksResults = await fetchStocksData(symbols);
-    console.log("====== HERE =========", stocksResults);
+    // console.log("====== HERE =========", stocksResults);
 
     if (stocksResults.length <= 0) {
-      throw new Error("No historical data found.");
+      throw new Error("No historical data found, please try again.");
     }
 
-    //? ======= switch to forEach?
-    const stocksHistoricalData = stocksResults.filter((item) => {
-      if (item?.error) throw new Error(`${item?.error}, please try again.`);
-      return item?.status === "OK";
+    // Check for errors on rejected
+     stocksResults.forEach((item) => {
+      if (item.error) throw new Error(`${item?.error}, please try again.`);
     });
 
     // OPEN AI
@@ -49,14 +48,15 @@ export async function getPrediction(symbols: string[]) {
         `,
     ];
 
-    //
-    stocksHistoricalData.forEach((symbol) => {
+    // Push an object with historical data to the prompt array
+    stocksResults.forEach((symbol) => {
       // console.log(symbol);
 
       const dataObj = {
         symbol: symbol?.ticker,
-        data: symbol?.results.map((obj) => JSON.stringify(obj)).join(""),
+        data: symbol.results?.map((obj) => JSON.stringify(obj)).join(""),
       };
+      // console.log(dataObj)
       prompt.push(JSON.stringify(dataObj));
     });
 
@@ -74,7 +74,7 @@ export async function getPrediction(symbols: string[]) {
     const prediction = completion.choices[0].message.content;
     console.log(prediction);
     return prediction;
-  } catch (e) {
+  } catch (e: any) {
     console.error("RETURN ERROR::::", e);
     return e?.message;
   }
