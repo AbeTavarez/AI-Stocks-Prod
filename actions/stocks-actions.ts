@@ -14,6 +14,11 @@ const yesterday = yesterdaysDateString();
 const twoYearsBack = getTwoYearsBackFromYesterday();
 const monthsBack = getMonthsBackFromYesterday(1);
 
+interface StockDataResult extends IAggs {
+  error?: {error: string, status: string},
+  
+}
+
 export async function fetchStocksData(symbols: string[]) {
   // Fetch each symbol data
   const fetchStock = async (symbol: string) => {
@@ -51,14 +56,16 @@ export async function fetchStocksData(symbols: string[]) {
 
     // map over the promises
     return results.map((result) => {
-      console.log(result);
+      // console.log(result);
 
       if (result.status === "fulfilled") {
-        return result.value as IAggs;
+        console.log('RESULT', result.value);
+        
+        return result.value as StockDataResult;
       } else {
         console.error("Promise rejected:", result.reason);
 
-        const error: { error: string } = {
+        const error: StockDataResult = {
           error: result.reason,
         };
         return error;
