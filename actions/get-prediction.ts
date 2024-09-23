@@ -76,6 +76,6 @@ export async function getPrediction(symbols: string[]) {
     return prediction;
   } catch (e: any) {
     console.error("RETURN ERROR::::", e);
-    return e?.message;
+    return e.message;
   }
 }
