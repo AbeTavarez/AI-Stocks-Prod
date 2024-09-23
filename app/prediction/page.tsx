@@ -36,18 +36,23 @@ export default function PredictionPage() {
    * @returns
    */
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const res = await getPrediction(symbols);
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const res = await getPrediction(symbols);
+      console.log("RES::: ", res);
 
-    if (res.message) {
-      setError(res.message);
-      return;
+      if (res.message) {
+        setError(res.message);
+        return;
+      }
+
+      setPrediction(res);
+      setSymbols([]);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
     }
-
-    setPrediction(res);
-    setSymbols([]);
-    setLoading(false);
   };
 
   return (
@@ -90,30 +95,30 @@ export default function PredictionPage() {
           </small>
         )}
 
-     
-          <Button
-            className="bg-blue-600 my-2 font-medium disabled:bg-transparent"
-            onClick={onAddStockSymbol}
-            disabled={symbol.length < 1}
-          >
-            Add Stock Symbol
-          </Button>
+        <Button
+          className="bg-blue-600 my-2 font-medium disabled:bg-transparent"
+          onClick={onAddStockSymbol}
+          disabled={symbol.length < 1}
+        >
+          Add Stock Symbol
+        </Button>
 
-          <Button
-            className="bg-green-500 my-2 font-medium disabled:bg-transparent"
-            disabled={symbols.length < 1}
-          >
-            <div className="flex justify-center">
-              {loading && (
-                <ArrowPathIcon className="size-6 mr-2 animate-spin" />
-              )}{" "}
-              Get Prediction
-            </div>
-          </Button>
-      
+        <Button
+          className="bg-green-500 my-2 font-medium disabled:bg-transparent"
+          disabled={symbols.length < 1}
+        >
+          <div className="flex justify-center">
+            {loading && <ArrowPathIcon className="size-6 mr-2 animate-spin" />}{" "}
+            Get Prediction
+          </div>
+        </Button>
       </form>
 
-      <>{error && <div className="text-sm text-red-600">{error}</div>}</>
+      <>
+        {error && (
+          <div className="text-sm text-red-600 text-center">{error}</div>
+        )}
+      </>
 
       <>
         {prediction && (
