@@ -15,22 +15,21 @@ export async function getPrediction(symbols: string[]) {
     }
 
     // Check for errors on rejected
-     stocksResults.forEach((item) => {
+    stocksResults.forEach((item) => {
       if (item.error) throw new Error(`${item?.error}, please try again.`);
     });
 
     // OPEN AI
     const prompt = [
-      `Your task is to provide a brief stock price prediction for each of the following stocks based on the provided historical data delimited by triple quotes. Also search for the latest stock trends for each stock and predict the price for the next opening day. 
-
-      Format the response inside a HTML div with other semantic elements, and don't add any other extra markup.`,
       `
-        The data is organized as follow:
+      Your task is to provide a brief stock price prediction for the next stock market opening day.
+      You will be provided with a list of stock symbols and their historical data as follow:
         {
-            symbol: <stock symbol ticker>,
+            symbol: <stock symbol>,
             data: <historical data>
         }
-        The <historical data> is organized as follow:
+            
+      The <historical data> is organized as follow:
         {
             c: The close price for the symbol in the given time period,
             h: The highest price for the symbol in the given time period,
@@ -43,8 +42,47 @@ export async function getPrediction(symbols: string[]) {
             vw: The volume weighted average price
         }
 
-        Here is the actual data:
-        """
+        Use the historical data and search for the latest trends before making your prediction.
+
+        Format the response of each of the stock symbols in HTML just like the two example below:
+        
+        Example #1:
+
+        <section>
+          <h2>Stock Price Predictions</h2>
+            <div>
+              <h3>GME (GameStop Corp.)</h3>
+              <p><strong>Latest Close Price:</strong> $21.85</p>
+              <p><strong>Latest Trend:</strong> GME has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $28.10.</p>
+              <p><strong>Prediction for Next Opening Day:</strong> $22.10</p>
+              <p><strong>Analysis:</strong> price prediction considers the recent upward trend following a lower close, alongside potential market movements. Trading volume has been significantly high, indicating increased interest which could lead to a slight price increase.</p>
+            </div>
+        </section>
+
+        Example #2:
+
+        <section>
+          <h2>Stock Price Predictions</h2>
+          <div>
+              <h3>DELL (DELL Technologies Inc.)</h3>
+              <p><strong>Latest Close Price:</strong> $117.5</p>
+              <p><strong>Latest Trend:</strong> DELL has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $118.84.</p>
+              <p><strong>Prediction for Next Opening Day:</strong> $118.25</p>
+              <p><strong>Analysis:</strong> The stock has shown a stable upward momentum, closing higher than its opening price in several recent sessions. Considering the latest trend and historical performance, the prediction estimates a slight increase at the next opening.
+              </p>
+          </div>
+
+          <div>
+              <h3>AAPL (Apple Inc.)</h3>
+              <p><strong>Latest Close Price:</strong> $217.70</p>
+              <p><strong>Latest Trend:</strong> IBM has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $218.84.</p>   
+              <p><strong>Prediction for Next Opening Day:</strong> I predict the opening price for IBM will be around <strong>$218.50</strong>, reflecting the recent bullish momentum.</p>
+          </div>
+        </section>
+
+        Don't add any other extra markup.
+
+        The actual historical data will start right after this line:
         `,
     ];
 
@@ -73,9 +111,9 @@ export async function getPrediction(symbols: string[]) {
 
     const prediction = completion.choices[0].message.content;
     console.log(prediction);
-    return {prediction};
+    return { prediction };
   } catch (e: any) {
     console.error("RETURN ERROR::::", e);
-    return {message: e.message};
+    return { message: e.message };
   }
 }
