@@ -4,7 +4,7 @@ import {
   yesterdaysDateString,
   getTwoYearsBackFromYesterday,
   getMonthsBackFromYesterday,
-} from "@/lib/dateHelper";
+} from "@/app/lib/dateHelper";
 
 import { IAggs } from "@polygon.io/client-js";
 
