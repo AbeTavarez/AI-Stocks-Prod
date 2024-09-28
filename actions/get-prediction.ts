@@ -44,41 +44,35 @@ export async function getPrediction(symbols: string[]) {
 
         Use the historical data and search for the latest trends before making your prediction.
 
-        Format the response of each of the stock symbols in HTML just like the two example below:
+        Format the response in an array of JSON objects just like the two example below:
         
-        Example #1:
-
-        <section>
-          <h2>Stock Price Predictions</h2>
-            <div>
-              <h3>GME (GameStop Corp.)</h3>
-              <p><strong>Latest Close Price:</strong> $21.85</p>
-              <p><strong>Latest Trend:</strong> GME has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $28.10.</p>
-              <p><strong>Prediction for Next Opening Day:</strong> $22.10</p>
-              <p><strong>Analysis:</strong> price prediction considers the recent upward trend following a lower close, alongside potential market movements. Trading volume has been significantly high, indicating increased interest which could lead to a slight price increase.</p>
-            </div>
-        </section>
-
-        Example #2:
-
-        <section>
-          <h2>Stock Price Predictions</h2>
-          <div>
-              <h3>DELL (DELL Technologies Inc.)</h3>
-              <p><strong>Latest Close Price:</strong> $117.5</p>
-              <p><strong>Latest Trend:</strong> DELL has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $118.84.</p>
-              <p><strong>Prediction for Next Opening Day:</strong> $118.25</p>
-              <p><strong>Analysis:</strong> The stock has shown a stable upward momentum, closing higher than its opening price in several recent sessions. Considering the latest trend and historical performance, the prediction estimates a slight increase at the next opening.
-              </p>
-          </div>
-
-          <div>
-              <h3>AAPL (Apple Inc.)</h3>
-              <p><strong>Latest Close Price:</strong> $217.70</p>
-              <p><strong>Latest Trend:</strong> IBM has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $218.84.</p>   
-              <p><strong>Prediction for Next Opening Day:</strong> I predict the opening price for IBM will be around <strong>$218.50</strong>, reflecting the recent bullish momentum.</p>
-          </div>
-        </section>
+        Example #1, array of a single JSON object:
+      [
+        {
+          "symbol": "GME (GameStop Corp.)",
+          "latestClosePrice": 21.85,
+          "latestTrend": "GME has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $28.10.",
+          "nextDayPrediction": 22.10,
+          "analysis": "price prediction considers the recent upward trend following a lower close, alongside potential market movements. Trading volume has been significantly high, indicating increased interest which could lead to a slight price increase."
+        }
+      ]
+        Example #2, array of multiple JSON objects:
+      [
+        {
+          "symbol": "DELL (DELL Technologies Inc.)",
+          "latestClosePrice": 117.5,
+          "latestTrend": "DELL has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $118.84.",
+          "nextDayPrediction": 118.25,
+          "analysis": "The stock has shown a stable upward momentum, closing higher than its opening price in several recent sessions. Considering the latest trend and historical performance, the prediction estimates a slight increase at the next opening."
+        },
+        {
+          "symbol": "AAPL (Apple Inc.)",
+          "latestClosePrice": 217.70,
+          "latestTrend": "IBM has shown a consistent pattern of volatility with a recent upward trend, reaching highs of $218.84.",
+          "nextDayPrediction": 218.50,
+          "analysis": "The stock has shown a stable upward momentum, closing higher than its opening price in several recent sessions. Considering the latest trend and historical performance, the prediction estimates a slight increase at the next opening."
+        }
+      ]
 
         Don't add any other extra markup.
 
@@ -109,9 +103,9 @@ export async function getPrediction(symbols: string[]) {
       ],
     });
 
-    const prediction = completion.choices[0].message.content;
-    console.log(prediction);
-    return { prediction };
+    const predictionData = completion.choices[0].message.content;
+    console.log(predictionData);
+    return { predictionData };
   } catch (e: any) {
     console.error("RETURN ERROR::::", e);
     return { message: e.message };
