@@ -1,6 +1,6 @@
 "use client";
-import ServiceCard from "@/components/ui/service-card";
-import { services } from "@/lib/services-data";
+import ServiceCard from "@/app/components/ui/service-card";
+import { services } from "@/app/lib/services-data";
 
 export default function Advisor() {
   return (

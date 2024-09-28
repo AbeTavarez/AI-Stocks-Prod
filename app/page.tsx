@@ -1,4 +1,4 @@
-import Hero from "@/components/ui/hero";
+import Hero from "@/app/components/ui/hero";
 import Link from "next/link";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
       <div className="mt-32">
         <p className="text-2xl md:text-5xl text-center leading-loose">
           Welcome to the next generation of stock market analysis. Our
-          AI-powered chatbot harnesses the power of advanced machine learning
+          AI-powered application harnesses the power of advanced machine learning
           algorithms to analyze historical stock data and provide accurate
           predictions, helping you make informed investment decisions.
         </p>

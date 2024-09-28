@@ -1,15 +1,17 @@
 "use client";
 import { FormEvent, useState, useEffect, useRef } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 import { getPrediction } from "@/actions/get-prediction";
+import { Prediction } from "../types";
+import PredictionItem from "../components/ui/prediction-item";
 
 export default function PredictionPage() {
   const [symbol, setSymbol] = useState("");
   const [symbols, setSymbols] = useState<string[]>([]);
   const [error, setError] = useState("");
-  const [prediction, setPrediction] = useState("");
   const [loading, setLoading] = useState(false);
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
   const textareaRef = useRef<HTMLInputElement>(null);
 
   // focus on input
@@ -39,8 +41,8 @@ export default function PredictionPage() {
     try {
       e.preventDefault();
       setLoading(true);
-      const { prediction, message } = await getPrediction(symbols);
-      console.log("RES::: ", prediction, message);
+      const { predictionData, message } = await getPrediction(symbols);
+      console.log("RES::: ", predictionData, message);
 
       if (message) {
         setError(message);
@@ -49,11 +51,12 @@ export default function PredictionPage() {
         // return;
       }
 
-      if (prediction) {
-        setPrediction(prediction);
+      if (predictionData) {
+        const parsedPredictions = JSON.parse(predictionData);
+        setPredictions(parsedPredictions);
         setSymbols([]);
         setLoading(false);
-        setError('')
+        setError("");
       }
     } catch (e) {
       console.log(e);
@@ -119,19 +122,13 @@ export default function PredictionPage() {
         </Button>
       </form>
 
-      <>
-        {error && (
-          <div className=" text-red-600 text-center">{error}</div>
-        )}
-      </>
+      <>{error && <div className=" text-red-600 text-center">{error}</div>}</>
 
       <>
-        {prediction && (
-          <div
-            className="prediction"
-            dangerouslySetInnerHTML={{ __html: prediction }}
-          />
-        )}
+        {predictions &&
+          predictions.map((prediction) => (
+            <PredictionItem key={prediction.symbol} {...prediction} />
+          ))}
       </>
     </main>
   );
