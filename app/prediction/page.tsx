@@ -65,13 +65,13 @@ export default function PredictionPage() {
 
   return (
     <main className="h-full p-20">
-      <h1 className="text-4xl font-bold text-center">Stock Prediction</h1>
+      <h1 className="text-4xl font-bold text-center mb-10">Stock Prediction</h1>
 
       <div className="h-5">
         {symbols.length > 0 && (
           <div className="flex justify-center pt-2">
             {symbols.map((s) => (
-              <div key={s} className="mr-5 font-semibold">
+              <div key={s} className="mr-5 font-semibold text-2xl">
                 {s}
               </div>
             ))}
