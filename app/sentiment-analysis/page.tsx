@@ -1,37 +1,36 @@
 "use client";
-import { useEffect, useState } from "react";
-import handler from "../actions/reddit";
+import { useState, useEffect } from "react";
+import { getSentiment } from "../actions/getSentiment";
+import { SentimentResult } from "../types";
 
-export default function Sentiment() {
-  const [sentimentResult, setSentimentResult] = useState([]);
+export default function SentimentAnalysis() {
+  const [sentimentResult, setSentimentResult] =
+    useState<SentimentResult | null>(null);
+
   useEffect(() => {
-    const fetchData = async (ticker: string) => {
-      try {
-     
-
-        const result = await handler(ticker);
-        console.log(result);
-        setSentimentResult(result);
-      } catch (error) {
-        console.log(error);
-      }
+    const fetchData = async () => {
+      const sentimentData = await getSentiment("AAPL");
+      console.log(sentimentData);
+      setSentimentResult(sentimentData);
     };
-    fetchData('AAPL');
+    fetchData();
   }, []);
 
   return (
-    <div>
-      <h1>Sentiment</h1>
+    <main>
+      <h1>Sentiment Analysis</h1>
 
-      {/* <div>
-        {sentimentResult.length > 1  &&sentimentResult.map((r, i) => (
-          <div key={i}>
-            <h2>{r.title}</h2>
-            <h2>{r.sentiment}</h2>
-            
+      <div>
+        {sentimentResult && (
+          <div>
+            <h2>{sentimentResult.mainSentiment}</h2>
+            <h2>{sentimentResult.posts[0].title}</h2>
+            <h2>{sentimentResult.sentimentCount.positive}</h2>
+            <h2>{sentimentResult.sentimentCount.negative}</h2>
+            <h2>{sentimentResult.sentimentCount.neutral}</h2>
           </div>
-        ))}
-      </div> */}
-    </div>
+        )}
+      </div>
+    </main>
   );
 }
