@@ -45,7 +45,7 @@ export async function getSentiment(ticker: string) {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "User-Agent": "d1:v0.1 (by /u/abe_http)"
+          "User-Agent": "web:40FXG7Jl88mxIrWlpYlY3w:v0.1 (by /u/abe_http)"
         },
       },
     );
