@@ -19,7 +19,7 @@ export async function getSentiment(ticker: string) {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${auth}`,
         },
-        body: `grant_type=client_credentials&redirect_uri=${process.env.REDIRECT_URI}`,
+        body: `grant_type=client_credentials&redirect_uri=${process.env.REDDIT_REDIRECT_URI}`,
       },
     );
 
