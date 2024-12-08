@@ -40,6 +40,7 @@ export async function getSentiment(ticker: string) {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "User-Agent": "Custom/0.1 by AI-Stocks"
         },
       },
     );
