@@ -19,20 +19,25 @@ export async function getSentiment(ticker: string) {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${auth}`,
         },
-        body: `grant_type=client_credentials`,
+        body: `grant_type=client_credentials&redirect_url=${process.env.REDIRECT_URL}`,
       },
     );
 
     console.log('RES::::: ',redditRes?.headers?.get("content-type"));
     console.log('AUTH RES::::: ',redditRes);
+
+    //? Check ================
+    if (!redditRes.ok) {
+      throw new Error("Failed to get Reddit Auth Token");
+    }
     
 
     const tokenData = await redditRes.json();
     //   console.log(tokenData);
 
     const accessToken = tokenData.access_token;
-      console.log("ACCESS TOKEN::: ", accessToken);
-      // console.log(ticker);
+    console.log("ACCESS TOKEN::: ", accessToken);
+    // console.log(ticker);
 
     // ===== Fetch SubReddit Data =============
     const res = await fetch(
