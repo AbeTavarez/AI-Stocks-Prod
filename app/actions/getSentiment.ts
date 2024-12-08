@@ -1,6 +1,6 @@
 "use server";
 import OpenAI from "openai";
-import { RedditPost, ProcessedPost, SentimentCount, SentimentResult } from "../types";
+import { RedditPost, ParsedPost, SentimentCount, SentimentResult } from "../types";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -23,15 +23,20 @@ export async function getSentiment(ticker: string) {
       },
     );
 
+    console.log('RES::::: ',redditRes?.headers?.get("content-type"));
+    console.log('AUTH RES::::: ',redditRes);
+    
+
     const tokenData = await redditRes.json();
     //   console.log(tokenData);
 
     const accessToken = tokenData.access_token;
-    //   console.log(accessToken);
+      console.log("ACCESS TOKEN::: ", accessToken);
+      // console.log(ticker);
 
     // ===== Fetch SubReddit Data =============
     const res = await fetch(
-      `https://oauth.reddit.com/r/stocks/search?q=${ticker}&limit=2&sort=new&restrict_sr=true`,
+      `https://oauth.reddit.com/r/stocks/search?q=${ticker}&limit=5&sort=new&restrict_sr=true`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -39,12 +44,15 @@ export async function getSentiment(ticker: string) {
       },
     );
 
+    console.log("DATA RES::: ", res);
+    
+
     const subRedditData = await res.json();
-    // console.log(subRedditData.data);
+    console.log("SUBREDDIT DATA::: ", subRedditData.data);
 
     // ===== Prepare Data =====================
 
-    const posts: ProcessedPost[] = subRedditData.data.children.map((p: RedditPost) => {
+    const posts: ParsedPost[] = subRedditData.data.children.map((p: RedditPost) => {
         return {
             title: p.data.title,
             content: p.data.selftext
@@ -78,7 +86,7 @@ export async function getSentiment(ticker: string) {
                 messages: [{role: 'user', content: prompt}],
             });
 
-            const sentiment = completion.choices[0].message.content;
+            const sentiment = completion.choices[0].message.content || "neutral";
             // console.log(sentiment);
             
             return {
@@ -125,6 +133,10 @@ export async function getSentiment(ticker: string) {
     .toLowerCase();
 
     console.log(mainSentiment);
+
+    if (!mainSentiment) {
+      throw new Error("Error generating Main Sentiment");
+    }
     
 
     // Return main sentiment and individual post details
@@ -133,10 +145,13 @@ export async function getSentiment(ticker: string) {
       posts: postsSentiment,
       sentimentCount,
     };
+
+    console.log(sentiment);
     
+
     return sentiment
 
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
   }
 }

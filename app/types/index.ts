@@ -13,9 +13,10 @@ export type RedditPost = {
   };
 };
 
-export type ProcessedPost = {
+export type ParsedPost = {
   title: string;
   content: string;
+  sentiment: string;
 };
 
 export type SentimentCount = {
@@ -25,7 +26,7 @@ export type SentimentCount = {
 };
 
 export type SentimentResult = {
-  mainSentiment: string | undefined,
-  posts: ProcessedPost[],
+  mainSentiment: string,
+  posts: ParsedPost[],
   sentimentCount: SentimentCount 
 }

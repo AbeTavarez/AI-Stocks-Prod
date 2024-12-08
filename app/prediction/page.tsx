@@ -2,7 +2,7 @@
 import { FormEvent, useState, useEffect, useRef } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/app/components/ui/button";
-import { getPrediction } from "@/actions/get-prediction";
+import { getPrediction } from "@/app/actions/getPrediction";
 import { Prediction } from "../types";
 import PredictionItem from "../components/ui/prediction-item";
 

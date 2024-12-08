@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "./ui/button";
-import { getPrediction } from "@/actions/get-prediction";
+import { getPrediction } from "@/app/actions/getPrediction";
 
 export default function StockPickerForm() {
   const [symbol, setSymbol] = useState("");

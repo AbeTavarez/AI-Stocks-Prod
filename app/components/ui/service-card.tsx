@@ -34,7 +34,7 @@ export default function ServiceCard({
   icon,
 }: ServiceCardProps) {
   const Icon = iconsMap[icon];
-  console.log(Icon);
+  // console.log(Icon);
 
   return (
     <Link
