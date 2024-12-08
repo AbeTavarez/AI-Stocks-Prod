@@ -11,40 +11,7 @@ export default function SentimentAnalysis() {
 
   // const [error, setError] = useState('');
 
-  // ============= V1
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const sentimentData = await getSentiment("AAPL");
-  //     console.log(sentimentData);
-  //     setSentimentResult(sentimentData);
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setError('');
-  //     setLoading(true);
-
-  //     const sentimentData = await getSentiment("AAPL");
-
-  //     if (sentimentData) {
-  //       console.log(sentimentData);
-  //       setSentimentResult(sentimentData);
-  //     } else {
-  //       console.error('Error fetching sentiment');
-  //       setError('Error fetching sentiment, please try again!');
-  //     }
-
-  //     setLoading(false);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   const handleAnalyzeSentiment = async (e: FormEvent) => {
-    console.log("run");
-
     try {
       e.preventDefault();
       if (!ticker.trim()) return alert("Please add a valid ticker!");
